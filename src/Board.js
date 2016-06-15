@@ -121,8 +121,6 @@
         } 
       }
       return pieces > 1 ? true : false;
-
-      return false; // fixme
     },
 
     // test if any columns on this board contain conflicts
@@ -145,41 +143,64 @@
     // test if a specific major diagonal on this board contains a conflict
     // TOP LEFT TO BOTTOM RIGHT CONFLICTS
     hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow) {
-      // var length = this.get(0).length;
+
+      var piecesCount = 0;
+
+      for ( var i = 0; i < this.get('n'); i++) {
+        var row = this.get(i);
+        if ( row[majorDiagonalColumnIndexAtFirstRow + i ] === 1 ) {
+          piecesCount += 1; 
+        }
+      }
+      
+      return piecesCount > 1 ? true : false;
+      // var totalRows = this.get(0).length; // number or rows and number of columns 
       // var piecesInDiagonalField = 0;
       // var currentRow = 0;
+      // var count = 0; 
+      // var context = this;
+
       
       // var helper = function(row, columnIndex) {
-      //   console.log(row, columnIndex);
       //   // if row or column are undefined
-      //   if ( row === length ) {
+      //   if ( count === totalRows ) {
       //     // return
       //     return; 
       //   }
       //   // check to see if columnIndex at current row has piece
-      //   if ( this.get(row)[columnIndex] === 1 ) {
+      //   if ( context.get(row)[columnIndex] === 1 ) {
       //     // if so add 1 to piecesInDiagonal Field
       //     piecesInDiagonalField += 1;
+      //     console.log(piecesInDiagonalField);
+      //     debugger;
       //   }
       //   // might have to do a check to see if row exists 
       //   // iterate over next row's columns starting at (column index + 1)
-      //   for ( var i = row + 1; i < length; i++ ) {
+        
       //    // recursive helper function on (next row, next column)
-      //     helper( row + 1, columnIndex + 1 );
+      //   count ++; 
+      //   helper( row + 1, columnIndex + 1 );
+
       //     // recursive helper funciton on (next row, column - 1)
-      //     helper( row + 1, columnIndex - 1);
-      //   }
+      //     // helper( row + 1, columnIndex - 1);
+        
       // };
       
       // helper( 0, majorDiagonalColumnIndexAtFirstRow );
-
-      // return piecesInDiagonalField > 1 ? true : false;
+      
     },
 
 
     // test if any major diagonals on this board contain conflicts
     hasAnyMajorDiagonalConflicts: function() {
-      return false; // fixme
+      var last = this.get('n') - 1;
+      var first = 0 - last;
+      for (var i = first; i <= last; i++) {
+        if (this.hasMajorDiagonalConflictAt(i)) {
+          return true;
+        }
+      }
+      return false;
     },
 
 
