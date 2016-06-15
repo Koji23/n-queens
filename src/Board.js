@@ -136,7 +136,7 @@
     },
 
 
-//THESE ARE SQUARES WITHIN SQUARES!
+// THINKS OF NEGATIVE COLUMNS!!!!!!!
     // Major Diagonals - go from top-left to bottom-right
     // --------------------------------------------------------------
     //
@@ -211,12 +211,28 @@
     // test if a specific minor diagonal on this board contains a conflict
     // TOP RIGHT TO BOTTOM LEFT CONFLICTS 
     hasMinorDiagonalConflictAt: function(minorDiagonalColumnIndexAtFirstRow) {
-      return false; // fixme
+      var piecesCount = 0;
+
+      for ( var i = 0; i < this.get('n'); i++) {
+        var row = this.get(i);
+        if ( row[minorDiagonalColumnIndexAtFirstRow - i ] === 1 ) {
+          piecesCount += 1; 
+        }
+      }
+      
+      return piecesCount > 1 ? true : false;
     },
 
     // test if any minor diagonals on this board contain conflicts
     hasAnyMinorDiagonalConflicts: function() {
-      return false; // fixme
+      var last = 0;
+      var first = 2 * (this.get('n')) - 2;
+      for (var i = first; i >= last; i--) {
+        if (this.hasMinorDiagonalConflictAt(i)) {
+          return true;
+        }
+      }
+      return false;
     }
 
     /*--------------------  End of Helper Functions  ---------------------*/
