@@ -16,33 +16,37 @@
 // solution should look like this EXAMPLE: var board = new Board([[1,0,0],[0,1,0],[0,0,1]])
 
 window.findNRooksSolution = function(n) {
-  solution = solution || new Board({'n': n}); //fixme
-  var numRows = solution.get('n');
-  var pieces = 0;
-  var possibilities = [];
-
-  for ( var i = 0; n * n - pieces; i++ ) {
-    var matrix = [];
-    for ( var k = 0; k < n - 1; k++ ) {
-      var row = solution.get(k);
-      for ( var l = 0; i < n; i++ ) {
-        if ( row[l] === 0 ) {
-          row[l] = 1;
-        }
-      }
-    }
-    possibilities.push(matrix);
-  }
-
-
 
   
 };
 
 // return the number of nxn chessboards that exist, with n rooks placed such that none of them can attack each other
 window.countNRooksSolutions = function(n) {
-  var solutionCount = undefined; //fixme
-
+  var solutionCount = 0; //fixme
+  var newBoard = new Board({'n': n});
+  var helper = function(board, pieces) {
+    if (pieces === n) {
+      solutionCount++;
+    } else {
+      for (var i = 0; i < n; i++ ) {
+        for (var j = 0; j < n; j++ ) {
+          var row = board.get(i);
+          if (row[j] === 0 ) {
+            row[j] = 1;
+            board.set(i, row);
+            if (!board.hasAnyRowConflicts() && !board.hasAnyColConflicts() ) {
+              pieces++;
+              helper(board, pieces);
+            } else {
+              row[j] = 0;
+              board.set(i, row);
+            } 
+          } 
+        }
+      }
+    }
+  };
+  helper(newBoard, 0);
   console.log('Number of solutions for ' + n + ' rooks:', solutionCount);
   return solutionCount;
 };
