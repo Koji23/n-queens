@@ -15,38 +15,28 @@
 
 // solution should look like this EXAMPLE: var board = new Board([[1,0,0],[0,1,0],[0,0,1]])
 
-window.findNRooksSolution = function(n, solution, pieces) {
+window.findNRooksSolution = function(n) {
   solution = solution || new Board({'n': n}); //fixme
-  pieces = pieces || 0;
-  //check to see if current board has no conflicts
+  var numRows = solution.get('n');
+  var pieces = 0;
+  var possibilities = [];
 
-    //&& check if current has n pieces
-  if ( pieces === n && !solution.hasAnyRowConflicts() && !solution.hasAnyColConflicts()) {
-    //return solution
+  for ( var i = 0; n * n - pieces; i++ ) {
     var matrix = [];
-    for ( var i = 0; i < n; i++ ) {
-      matrix.push(solution.get(i));
-    }
-    return matrix;
-  } else {
-    for ( var i = 0; i < n; i++ ) {
-      for ( var j = 0; j < n; j++) {
-        var row = solution.get(i);
-        if (row[j] === 0 ) {
-          row[j] = 1; 
-          solution.set(i, row);
-          pieces++;
-          return findNRooksSolution(n, solution, pieces);
-        } 
+    for ( var k = 0; k < n - 1; k++ ) {
+      var row = solution.get(k);
+      for ( var l = 0; i < n; i++ ) {
+        if ( row[l] === 0 ) {
+          row[l] = 1;
+        }
       }
     }
+    possibilities.push(matrix);
   }
-  //otherwise
-    //recurse over remaining possibilites
 
 
 
-  //console.log('Single solution for ' + n + ' rooks:', JSON.stringify(solution));
+  
 };
 
 // return the number of nxn chessboards that exist, with n rooks placed such that none of them can attack each other
