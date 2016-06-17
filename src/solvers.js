@@ -131,8 +131,26 @@ window.findNQueensSolution = function(n) {
 
 // return the number of nxn chessboards that exist, with n queens placed such that none of them can attack each other
 window.countNQueensSolutions = function(n) {
-  var solutionCount = undefined; //fixme
-
-  // console.log('Number of solutions for ' + n + ' queens:', solutionCount);
-  return solutionCount;
+  var newBoard = new Board({'n': n});
+  var count = 0;
+    var findPermutations = function(pieces, matrixSoFar) {
+      if (pieces === n) {
+        count++;
+        return;
+      } else if (pieces < n) {
+        for (var i = 0; i < n; i++) {
+          var row = matrixSoFar.get(pieces);
+          row[i] = 1;
+          matrixSoFar.set(pieces, row);
+          if (!matrixSoFar.hasAnyRowConflicts() && !matrixSoFar.hasAnyColConflicts() && !matrixSoFar.hasAnyMajorDiagonalConflicts() && !matrixSoFar.hasAnyMinorDiagonalConflicts()) {
+            findPermutations(pieces + 1, matrixSoFar);
+          } 
+          row[i] = 0;
+          matrixSoFar.set(pieces, row);           
+        }
+      }
+    };
+   
+   findPermutations(0, newBoard);
+   return count;
 };
